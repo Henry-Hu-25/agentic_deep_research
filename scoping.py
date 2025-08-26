@@ -6,34 +6,25 @@ from langgraph.graph import MessageState
 from langgraph.graph.message import add_messages
 from pydantic import BaseModel, Field
 
-'''
-AgentInputState class serves as a type-safe inut schema for LangGraph. It validates the incoming data and maps the user input to Agentstate["messages"]
-'''
-class AgentInputState(MessageState):
-    '''
-    Input state for the full agent. Only contains messages from the user input.
-    '''
-    pass
 
-class AgentState(MessageState):
+class ClarifyWithUser(BaseModel):
     '''
-    Main state for the full agent. 
+    Schema for user clarification decision and questions
     '''
 
-    # Research prompt generated after analyzing user intent. 
-    # Optional[str] is equivalent to Union[str, None] from typing
-    research_prompt: Optional[str]
+    need_clarification: bool = Field(
+        description="Wheter the user needs to be asked a clarification question."
+    )
 
-    # Supervisor oversees the entire task and manages multi-agent researchers
-    # Annotated: extra metadata for the type
-    # Sequence: an ordered collection of items
-    supervisor_message: Annotated[Sequence[BaseMessage], add_messages]
+    question: str = Field(
+        description="A clarifying question to ask the user"
+    )
 
-    # Raw unprocess research notes collected
-    raw_notes: Annotated[List[str], operator.add]
+    verification: str = Field(
+        description="A verification message signaling that the research will start after the user has provided the necessary information"
+    )
 
-    # Processed and structured notes for report generation
-    notes: Annotated[List[str], operator.add]
+class ResearchQuestion(BaseModel):
+    '''
     
-    # Final report
-    final_report: Optional[str]
+    '''
