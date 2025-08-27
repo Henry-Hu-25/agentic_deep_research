@@ -32,3 +32,5 @@ class ResearchQuestion(BaseModel):
     research_brief: str = Field(
         description ="The final, refined research question that will be used to guide the research."
     )
+
+    
