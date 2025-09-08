@@ -37,4 +37,3 @@ class AgentState(MessageState):
     
     # Final report
     final_report: Optional[str]
-
